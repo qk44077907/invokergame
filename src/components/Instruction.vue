@@ -6,7 +6,7 @@
       <tr class="cell" v-for="(skill, skillKey) in skillsMap" :key="skillKey">
         <td><span :class="[skillKey]" class="icon"></span></td>
         <td><span class="spellName">{{skill.text.zh}} - </span></td>
-        <td v-for="(orb ,index) in skill.answer" :key="index" :class="[orb]">
+        <td v-for="(orb ,index) in skill.orbs" :key="index" :class="[orb]">
           <span class="hotkey hotkey1">{{hotkeyMap[orb].key}}</span>
         </td>
       </tr>

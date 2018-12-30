@@ -103,6 +103,20 @@
         }
       }
     }
+    label{
+      cursor: pointer;
+    }
+    #legacyCheckbox {
+      margin-left: 5px;
+    }
+    #reset {
+      margin-left: 5px;
+      margin-bottom: 10px;
+    }
+    #musicCheckbox, #soundCheckbox {
+      margin-left: 10px;
+      vertical-align: middle;
+    }
   }
 
 

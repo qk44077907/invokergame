@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isGaming:false,
+    gameStatus:0, //0-未开始 1-正在进行 2-已结束
     isHotkeyWaitingChange:false,
     hotkeyToBeChanged:'',
     isTraditional:false,
@@ -239,70 +239,70 @@ export default new Vuex.Store({
     },
     skillsMap:{
       "jslq": {
-        answer:['quash','quash','quash'],
+        orbs:['quash','quash','quash'],
         text:{
           zh:'急速冷却',
           en:'Cold-Snap'
         },
       },
       "ylmb": {
-        answer:['quash','quash','wex'],
+        orbs:['quash','quash','wex'],
         text:{
           zh:'幽灵漫步',
           en:'Ghost-Walk'
         },
       },
       "hbzq": {
-        answer:['quash','quash','exort'],
+        orbs:['quash','quash','exort'],
         text:{
           zh:'寒冰之墙',
           en:'Ice-Wall'
         },
       },
       "dcmc": {
-        answer:['wex','wex','wex'],
+        orbs:['wex','wex','wex'],
         text:{
           zh:'电磁脉冲',
           en:'EMP'
         },
       },
       "qxjf": {
-        answer:['wex','wex','quash'],
+        orbs:['wex','wex','quash'],
         text:{
           zh:'强袭飓风',
           en:'Tornado'
         },
       },
       "ldxj": {
-        answer:['wex','wex','exort'],
+        orbs:['wex','wex','exort'],
         text:{
           zh:'灵动迅捷',
           en:'Alacrity'
         },
       },
       "yycj": {
-        answer:['exort','exort','exort'],
+        orbs:['exort','exort','exort'],
         text:{
           zh:'阳炎冲击',
           en:'Sun-Strike'
         },
       },
       "rljl": {
-        answer:['exort','exort','quash'],
+        orbs:['exort','exort','quash'],
         text:{
           zh:'熔炉精灵',
           en:'Forge-Spirit'
         },
       },
       "hdys": {
-        answer:['exort','exort','wex'],
+        orbs:['exort','exort','wex'],
         text:{
           zh:'混沌陨石',
           en:'Chaos-Meteor'
         },
       },
       "czsb": {
-        answer:['quash','wex','exort'],
+        orbs:['quash','wex','exort'],
         text:{
           zh:'超震声波',
           en:'Deafening-Blast'
@@ -312,10 +312,10 @@ export default new Vuex.Store({
   },
   getters:{
     answersMap:(state)=> {
-      let result
+      let result = {}
       Object.keys(state.skillsMap).forEach((skillKey)=>{
         let quash = 0 ,wex = 0,exort = 0
-        state.skillsMap[skillKey].answer.forEach(orb =>{
+        state.skillsMap[skillKey].orbs.forEach(orb =>{
           switch (orb) {
             case 'quash':quash++;
             break;
@@ -347,9 +347,10 @@ export default new Vuex.Store({
         state.isHotkeyWaitingChange = false
         state.hotkeyToBeChanged = ''
       }
-      if(state.isGaming){
 
-      }
+    },
+    changeGameStatus(state, status) {
+      state.gameStatus = status
     },
     activateHotkeyChange(state,key) {
       if(state.hotkeyToBeChanged === key){

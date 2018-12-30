@@ -12,7 +12,7 @@
 
       </div>-->
       <div class="header">
-        <div class="banner"><img src="http://7xqs6j.com1.z0.glb.clouddn.com/banner.jpg"/></div>
+        <div class="banner"></div>
         <div id="nav">
           <ul>
             <li><a href="index.html">首页</a></li>
@@ -115,6 +115,7 @@
   import Instruction from "@/components/Instruction";
   import Hotkey from "@/components/Hotkey";
   import {mapMutations} from "vuex"
+
   export default {
     name: "app",
     components: {
@@ -125,16 +126,33 @@
       ...mapMutations(['keyBoardHandler'])
     },
     created() {
-      document.addEventListener('keydown',this.keyBoardHandler)
+      document.addEventListener('keydown', this.keyBoardHandler)
     }
   };
 </script>
 <style lang="less" scoped>
-  .content{
+  @import "./assets/home.css";
+  @import "./assets/public.css";
+  @import "./assets/hero.css";
+
+  .content {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    width: 1000px;
+    min-height: 1500px;
+    margin: 0 auto;
+    background-image: url("./assets/images/wall.jpg");
+    #title {
+      font-size: 50px;
+      font-weight: bold;
+      text-align: center;
+      color: aliceblue;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
   }
+
   #mainContainer {
     display: inline-block;
     flex: none;
@@ -145,14 +163,105 @@
     border-radius: 5px;
     background-color: black;
 
+  }
+  .header {
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
 
+  .banner {
+    width: 1000px;
+    height: 200px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .banner img {
+    width: 100%;
+  }
+
+  #nav ul {
+    width: 1000px;
+    height: 60px;
+    margin: 0 auto;
+    display: block;
+    list-style: none;
+    text-align: center;
+  }
+
+  #nav ul li {
+    float: left;
+    width: 25%;
+    /*background-color: red;*/
+    height: 60px;
+  }
+
+  #nav ul li a {
+
+    height: 60px; /*���ø߶�Ϊ28px*/
+    line-height: 60px; /* �����о�Ϊ28px����������ÿ�е��м�λ��*/
+    vertical-align: middle;
+    background: #2B2B2B;
+    color: #dbdbdb; /*������ɫ�ǰ�ɫ*/
+    margin: 0px 1px 0px 1px;
+    /*font-size:35px;��12����*/
+    display: block; /*����ȽϹؼ�����Ϊa�����������Ԫ�أ��������п�ߣ������������ɿ鼶Ԫ�أ�����ǰ�����õĿ�͸߾�����������*/
+    text-align: center; /*���ı�����*/
+    text-decoration: none; /*ȥ���»���*/
+    border: solid 1px black;
+    -webkit-border-radius: 5px;
+    font-size: 25px;
+    letter-spacing: 8px;
+    background: url(./assets/images/menu.jpg) repeat-x;
+    background-size: auto 100%;
+  }
+
+  #nav ul li a:hover {
+    color: #e36500;
+  }
+
+  #nav ul li:first-child a {
+    margin-left: 0px;
+  }
+
+  #nav ul li:last-child a {
+    margin-right: 0px;
   }
 </style>
 <style>
-  body html p h1 h2 h3 h4 h5 a span{
+  body html p h1 h2 h3 h4 h5 a span {
     margin: 0;
     padding: 0;
     font-family: "Microsoft Yahei";
+  }
+  body {
+    margin: 0px;
+    padding: 0px;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: Arial, "Microsoft Yahei";
+
+  }
+  html {
+    font-size: 125%; /*10 �� 16 �� 100% = 62.5%*/
+  }
+  input,button,select,textarea{outline:none;}
+  body {
+
+    font-size: 0.7rem; /*1.4 �� 10px = 14px */
+  }
+
+
+
+  html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, img {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+  }
+  h1 {
+    font-size: 1.2rem; /*2.4 �� 10px = 24px*/
+    font-weight:bold;
   }
 
 </style>

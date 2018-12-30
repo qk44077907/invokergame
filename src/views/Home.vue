@@ -3,7 +3,7 @@
     <ul id="modelList">
       <li id="jsms" @mouseenter="changeModel('jsms')" @click="play"><a href="javascript:void(0)" class="button button-black">极速模式</a>
       </li>
-      <li id="szms" @mouseenter="changeModel('szms')"><a href="javascript:void(0)" class="button button-black"> 实战模式</a>
+      <li id="szms" @mouseenter="changeModel('szms')" @click="play"><a href="javascript:void(0)" class="button button-black"> 实战模式</a>
       </li>
     </ul>
     <div id="intro" :class="[model]">
@@ -75,11 +75,39 @@
     components: {}
   };
 </script>
-<style lang="less">
-  @import "../assets/home.css";
-  @import "../assets/public.css";
-  @import "../assets/hero.css";
+<style lang="less" scoped>
   #menu{
+    .button:active {
+      /* When pressed, move it down 1px */
+      position: relative;
+      top: 1px;
+    }
+    .button{
+      border-radius: 0.5rem;
+      border-top: 1px solid #fff;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      display: block;
+      padding: 0rem 1.5rem;
+      letter-spacing: 6px;
+      text-align: center;
+      margin-bottom: 100px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-family: "Microsoft Yahei";
+      color: #fff;
+    }
+    ul{
+      width: 207px;
+      display: block;
+      float: left;
+      list-style: none;
+      line-height: 60px;
+      padding: 0px 0 0 0px;
+      font-size: 1rem;
+      text-align: center;
+      margin-left: 10px;
+      margin-top: 30px;
+    }
     .button-black {
       background: #141414;
       background: linear-gradient(#656565, #141414);
