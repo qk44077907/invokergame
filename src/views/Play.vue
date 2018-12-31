@@ -17,102 +17,39 @@
         <input @click="resetGame" class="restart" type="button" value="再来一次"/><input @click="backToHome" class="cancel" type="button"
                                                                   value="返回"/>
       </div>
-      <div id="modelBox">
+      <div id="modelBox" v-if="gameStatus !== 2">
         <div id="jsms_box" v-if="model === 'jsms'">
           <div id="jsms_spellShow" :class="model1Question">
             <div class="picture"></div>
+
             <span class="name" :class="model1Question">{{model1QuestionName}}</span>
           </div>
         </div>
         <div id="szms_box" v-if="model === 'szms'">
-          <div id="szms_spellShow1">
-            <div class="picture"></div>
-            <span class="name"></span>
-          </div>
-          <div id="szms_spellShow2">
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-          </div>
-          <div id="szms_spellShow3">
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-          </div>
-          <div id="szms_spellShow4">
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-          </div>
-          <div id="szms_spellShow6">
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-            <br/>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-          </div>
           <div id="szms_spellShow10">
-            <div class="picture"></div>
-            <span class="name"></span>
+            <div class="line1 line">
+              <div
+                  v-for="(question,index) in line1Questions"
+                  :key="index"
+                  :class="[question.name,{hide:question.isAnswered}]"
+                  class="question-wrapper"
+              >
+                <div class="picture" :class="[question.name]"></div>
+                <span class="name" :class="[question.name]">{{question.text}}</span>
+              </div>
+            </div>
+            <div class="line2 line">
+              <div
+                  v-for="(question,index) in line2Questions"
+                  :key="index"
+                  :class="[question.name,{hide:question.isAnswered}]"
+                  class="question-wrapper"
+              >
+                <div class="picture" :class="[question.name]"></div>
+                <span class="name" :class="[question.name]">{{question.text}}</span>
+              </div>
+            </div>
 
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-            <br/>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
-
-            <div class="picture"></div>
-            <span class="name"></span>
           </div>
         </div>
       </div>
@@ -138,10 +75,10 @@
         <div class="exortkey hotkey">{{hotkeyMap.exort.key}}</div>
       </div>
       <div id="skill1" :class="[skills[0]]">
-        <div class="skill1key hotkey">{{skill1Key}}</div>
+        <div class="skill1key hotkey">{{skillSlotKeys[0]}}</div>
       </div>
       <div id="skill2" :class="[skills[1]]">
-        <div class="skill2key hotkey">{{skill2Key}}</div>
+        <div class="skill2key hotkey">{{skillSlotKeys[1]}}</div>
       </div>
       <div id="invoke">
         <div class="invokekey hotkey">{{hotkeyMap.invoke.key}}</div>
@@ -155,6 +92,14 @@
 </template>
 
 <script>
+  function shuffle(arr){
+    let n = arr.length, random;
+    while(0!=n){
+      random =  (Math.random() * n--) >>> 0; // 无符号右移位运算符向下取整
+      [arr[n], arr[random]] = [arr[random], arr[n]] // ES6的结构赋值实现变量互换
+    }
+    return arr;
+  }
   import {mapState, mapMutations,mapGetters} from "vuex"
   export default {
     name: "Play",
@@ -168,6 +113,7 @@
         skills:[],
         orbs:[],
         model1Question:'',
+        model2Questions:[],
         questionsRemaining:10,
 
         timeElapsed:'00:00'
@@ -177,6 +123,14 @@
     computed:{
       ...mapState(['gameStatus','hotkeyMap','isTraditional']),
       ...mapGetters(['answersMap']),
+      line1Questions() {
+        let mid = this.model2Questions.length /2
+        return this.model2Questions.filter((question, index)=>index < mid)
+      },
+      line2Questions() {
+        let mid = this.model2Questions.length/2
+        return this.model2Questions.filter((question, index)=>index >= mid)
+      },
       skillList() {
         let skillList = []
         for (let prop in this.answersMap){
@@ -184,29 +138,29 @@
         }
         return skillList
       },
-      skill1Key() {
+      skillSlotKeys() {
+        let keys = []
+
         if(this.isTraditional){
           if(this.skills[0]){
-            return this.hotkeyMap[this.skills[0]].key
+            keys[0] = this.hotkeyMap[this.skills[0]].key
           }else {
-            return ''
+            keys[0] = ''
           }
-
         }else {
-          return this.hotkeyMap.skill1.key
+          keys[0] = this.hotkeyMap.skill1.key
         }
-
-      },
-      skill2Key() {
         if(this.isTraditional){
           if(this.skills[1]){
-            return this.hotkeyMap[this.skills[1]].key
+            keys[1] = this.hotkeyMap[this.skills[1]].key
           }else {
-            return ''
+            keys[1] = ''
           }
         }else {
-          return this.hotkeyMap.skill2.key
+          keys[1] = this.hotkeyMap.skill2.key
         }
+        return keys
+
       },
       model1QuestionName() {
         if(this.model1Question){
@@ -214,8 +168,23 @@
         }else {
           return ''
         }
-
-      }
+      },
+      /*model2QuesntionNames() {
+        return this.model2Questions.map(question =>{
+          if(question){
+            return this.hotkeyMap[question].text.zh
+          }else {
+            return ''
+          }
+        })
+      }*/
+      /*keyBoardHandler() {
+        if(this.model === 'jsms'){
+          return this.model1KeyBoardHandler
+        }else if(this.model === 'szms'){
+          return this.model2KeyBoardHandler
+        }
+      }*/
     },
     watch:{
       gameStatus(val,oldVal) {
@@ -237,7 +206,6 @@
           return
         }*/
         let key = e.key.toUpperCase();
-        console.log(key);
         switch (key) {
           case this.hotkeyMap.quash.key:
             this.orbs.unshift('quash');
@@ -254,6 +222,14 @@
               this.checkModel1Answer(skillInvoked)
             }
             break;
+        }
+        if(this.model === 'szms'){
+          let skillTriggered
+          let index = this.skillSlotKeys.indexOf(key)
+          if(index !== -1 && this.skills[index]){
+            skillTriggered = this.skills[index]
+            this.checkModel2Answer(skillTriggered)
+          }
         }
         while (this.orbs.length >3){
           this.orbs.pop()
@@ -298,12 +274,36 @@
           this.updateModel1Question()
         }
       },
+      checkModel2Answer(skillTriggered) {
+        let questionHit = this.model2Questions.find(question => question.name === skillTriggered && !question.isAnswered)
+        if(questionHit){
+          this.questionsRemaining--
+          questionHit.isAnswered = true
+          if(this.questionsRemaining === 0){
+            this.finishGame()
+            return
+          }
+          if(this.model2Questions.filter(question => !question.isAnswered).length === 0){
+            this.updateModel2Question()
+          }
+        }
+      },
       updateModel1Question() {
         let question
         do{
           question = this.skillList[Math.floor(Math.random()*this.skillList.length)];
         }while (question === this.model1Question)
         this.model1Question = question
+      },
+      updateModel2Question() {
+        let copy = this.skillList.slice()
+        this.model2Questions = shuffle(copy).slice(0,5).map(question =>{
+          return {
+            name:question,
+            text:this.hotkeyMap[question].text.zh,
+            isAnswered:false
+          }
+        })
       },
       startWatch() {
         this.startTime = +new Date()
@@ -319,6 +319,24 @@
       },
       pauseWatch() {
         clearInterval(this.watchTimer)
+      },
+      resetParams() {
+        let defaultParams = {
+          watchTimer:null,
+          startTime:0,
+          countDownNum: 3,
+          isCountShowed:false,
+          skills:[],
+          orbs:[],
+          model1Question:'',
+          model2Questions:[],
+          questionsRemaining:10,
+
+          timeElapsed:'00:00'
+        }
+        for(let key in defaultParams){
+          this[key] = defaultParams[key]
+        }
       },
       async startGame() {
         this.countDownNum =3
@@ -339,8 +357,15 @@
 
           },1000)
         })
-        this.startWatch()
-        this.updateModel1Question()
+        //this.startWatch()
+        switch (this.model) {
+          case 'jsms':
+            this.updateModel1Question();
+            break;
+          case 'szms':
+            this.updateModel2Question();
+            break;
+        }
         this.changeGameStatus(1)
       },
       finishGame() {
@@ -349,7 +374,7 @@
       },
       resetGame() {
         this.pauseWatch()
-        this.timeElapsed = '00:00'
+        this.resetParams()
         this.changeGameStatus(0)
       },
     },
@@ -528,8 +553,13 @@
       height: 80px;
       line-height: 80px;
       background-size: 100% 100%;
-      .picture{
-        background-size: 100% 100%;
+
+
+      &>div{
+        width: 60px;
+        height: 60px;
+        display: inline-block;
+        vertical-align: middle;
       }
       &.jslq{
         box-shadow: 0px 0px 50px #68B4FB;
@@ -601,6 +631,7 @@
           background-image: url("../assets/images/spells/ldxj.png");
         }
       }
+
       [class='name jslq']{
         color:#4785CB ;
         text-shadow: 0px 0px 100px #68B4FB;
@@ -641,15 +672,15 @@
         color: #F487F1;
         text-shadow: 0px 0px 100px #F48DF2;
       }
+
+    }
+    .picture{
+      background-size: 100% 100%;
     }
 
 
-    #jsms_spellShow>div{
-      width: 60px;
-      height: 60px;
-      display: inline-block;
-      vertical-align: middle;
-    }
+
+
 
 
     #jsms_spellShow>span{
@@ -668,97 +699,153 @@
       background-image: url("../assets/images/buttonbg.jpg");
     }
 
-    #szms_spellShow6{
-      text-align: center;
-      margin-top: 40px;
-      width: 100%;
-      height: 160px;
-      line-height: 80px;
-      background-size: 100% 50%;
-      background-image: url("../assets/images/buttonbg.jpg");
-    }
-
     #szms_spellShow10{
-      text-align: center;
       margin-top: 40px;
       width: 100%;
       height: 160px;
       line-height: 80px;
       background-size: 100% 50%;
       background-image: url("../assets/images/buttonbg.jpg");
-    }
-    #szms_spellShow1>div{
-      width: 60px;
-      height: 60px;
-      display: inline-block;
-      margin-right: 0.8rem;
-      margin-left: 0.8rem;
-      vertical-align: middle;
-    }
-    #szms_spellShow1>span{
-      font-size: 30px;
-      vertical-align: middle;
-    }
-    #szms_spellShow2>div{
-      width: 60px;
-      height: 60px;
-      display: inline-block;
-      margin-right: 1.2rem;
-      margin-left: 1.2rem;
-      vertical-align: middle;
-    }
-    #szms_spellShow2>span{
-      font-size: 26px;
-      vertical-align: middle;
-    }
-    #szms_spellShow3>div{
-      width: 55px;
-      height: 55px;
-      display: inline-block;
-      margin-right: 0.6rem;
-      margin-left: 1rem;
-      vertical-align: middle;
-    }
-    #szms_spellShow3>span{
-      font-size: 24px;
-      vertical-align: middle;
-    }
-    #szms_spellShow4>div{
-      width: 50px;
-      height: 50px;
-      display: inline-block;
-      margin-right: 0.2rem;
-      margin-left: 0.3rem;
-      vertical-align: middle;
-    }
-    #szms_spellShow4>span{
-      font-size: 20px;
-      vertical-align: middle;
-    }
+      .line{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 80px;
+        height: 80px;
+        .question-wrapper{
+          margin-right: 10px;
+          &:last-child{
+            margin-right: 0;
+          }
+        }
+      }
+      .question-wrapper{
+        display: inline-block;
+        opacity: 1;
+        transition: opacity 0.5s;
+        &.hide{
+          opacity: 0;
+        }
+        &.jslq{
+          .picture{
+            box-shadow: 0px 0px 10px #CEEBFF;
+            background-image: url("../assets/images/spells/jslq.png");
+          }
+        }
+        &.hbzq{
 
-    #szms_spellShow6>div{
-      width: 55px;
-      height: 55px;
-      display: inline-block;
-      margin-right: 0.6rem;
-      margin-left: 1rem;
-      vertical-align: middle;
-    }
-    #szms_spellShow6>span{
-      font-size: 24px;
-      vertical-align: middle;
-    }
-    #szms_spellShow10>div{
-      width: 45px;
-      height: 45px;
-      display: inline-block;
-      margin-right: 0.1rem;
-      margin-left: 0.1rem;
-      vertical-align: middle;
-    }
-    #szms_spellShow10>span{
-      font-size: 16px;
-      vertical-align: middle;
+          .picture{
+            box-shadow: 0px 0px 10px #CEEBFF;
+            background-image: url("../assets/images/spells/hbzq.png");
+          }
+        }
+        &.ylmb{
+
+          .picture{
+            box-shadow: 0 0 10px #68B4FB;
+            background-image: url("../assets/images/spells/ylmb.png");
+          }
+        }
+        &.dcmc{
+
+          .picture{
+            box-shadow: 0px 0px 10px #F793F5;
+            background-image: url("../assets/images/spells/dcmc.png");
+          }
+        }
+        &.qxjf{
+
+          .picture{
+            box-shadow: 0px 0px 10px #9A53BB;
+            background-image: url("../assets/images/spells/qxjf.png");
+          }
+        }
+        &.yycj{
+          .picture{
+            box-shadow: 0px 0px 10px #FFC562;
+            background-image: url("../assets/images/spells/yycj.png");
+          }
+        }
+        &.rljl{
+          .picture{
+            box-shadow: 0px 0px 10px #FFC562;
+            background-image: url("../assets/images/spells/rljl.png");
+          }
+        }
+        &.hdys{
+          .picture{
+            box-shadow: 0px 0px 10px #FFC562;
+            background-image: url("../assets/images/spells/hdys.png");
+          }
+        }
+        &.czsb{
+          .picture{
+            box-shadow: 0px 0px 10px #F5B9E7;
+            background-image: url("../assets/images/spells/czsb.png");
+          }
+        }
+        &.ldxj{
+          .picture{
+            box-shadow: 0px 0px 10px #F48DF2;
+            background-image: url("../assets/images/spells/ldxj.png");
+          }
+        }
+        [class='name jslq']{
+          color:#4785CB ;
+          text-shadow: 0px 0px 100px #68B4FB;
+        }
+        [class='name hbzq']{
+          color:#4785CB ;
+          text-shadow: 0px 0px 100px #CEEBFF;
+        }
+        [class='name ylmb']{
+          color: #72C3FC;
+          text-shadow: 0px 0px 100px #72C3FC;
+        }
+        [class='name dcmc']{
+          color: #F487F1;
+          text-shadow: 0px 0px 100px #F793F5;
+        }
+        [class='name qxjf']{
+          color: #F487F1;
+          text-shadow: 0px 0px 100px #F487F1;
+        }
+        [class='name yycj']{
+          color: #FCCA72;
+          text-shadow: 0px 0px 100px red;
+        }
+        [class='name rljl']{
+          color: #FCCA72;
+          text-shadow: 0px 0px 100px red;
+        }
+        [class='name hdys']{
+          color: #FCCA72;
+          text-shadow: 0px 0px 100px red;
+        }
+        [class='name czsb']{
+          color: #F4ADD1;
+          text-shadow: 0px 0px 100px #F5B9E7;
+        }
+        [class='name ldxj']{
+          color: #F487F1;
+          text-shadow: 0px 0px 100px #F48DF2;
+        }
+      }
+      .picture{
+        width: 45px;
+        height: 45px;
+        display: inline-block;
+        margin-right: 0.1rem;
+        margin-left: 0.1rem;
+        vertical-align: middle;
+      }
+      .name{
+        font-size: 16px;
+        vertical-align: middle;
+      }
+
+
+
     }
     #loading{
       display: none;

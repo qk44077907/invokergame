@@ -324,8 +324,8 @@ export default new Vuex.Store({
             case 'exort':exort++;
               break;
           }
-          result[`s${quash}${wex}${exort}`] = skillKey
         })
+        result[`s${quash}${wex}${exort}`] = skillKey
 
       })
       return result
