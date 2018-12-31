@@ -340,7 +340,7 @@
 
           },1000)
         })
-        //this.startWatch()
+        this.startWatch()
         switch (this.model) {
           case 'jsms':
             this.updateModel1Question();
