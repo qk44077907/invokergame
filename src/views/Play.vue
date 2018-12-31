@@ -389,7 +389,7 @@
 </script>
 
 <style lang="less" scoped>
-  @import "../assets/play.css";
+
   @keyframes shake-horizontal {
     10% {
       transform: translate(-10px, 0); }

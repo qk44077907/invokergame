@@ -13,14 +13,14 @@
       </div>-->
       <div class="header">
         <div class="banner"></div>
-        <div id="nav">
+        <!--<div id="nav">
           <ul>
             <li><a href="index.html">首页</a></li>
             <li><a href="hero.html">英雄资料</a></li>
             <li><a href="rank.html">荣誉榜</a></li>
             <li><a href="about.html">关于</a></li>
           </ul>
-        </div>
+        </div>-->
 
       </div>
       <div class="background">
@@ -131,9 +131,6 @@
   };
 </script>
 <style lang="less" scoped>
-  @import "./assets/home.css";
-  @import "./assets/public.css";
-  @import "./assets/hero.css";
 
   .content {
     display: flex;
@@ -175,11 +172,10 @@
     height: 200px;
     margin: 0 auto;
     overflow: hidden;
+    background-size: 100% auto;
+    background-image: url(./assets/images/banner2.png);
   }
 
-  .banner img {
-    width: 100%;
-  }
 
   #nav ul {
     width: 1000px;
