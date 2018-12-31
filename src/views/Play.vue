@@ -49,11 +49,9 @@
                 <span class="name" :class="[question.name]">{{question.text}}</span>
               </div>
             </div>
-
           </div>
         </div>
       </div>
-
       <div class="orbContainer" v-if="gameStatus !== 2">
         <div id="orb3" :class="[orbs[0]]">
         </div>
@@ -115,7 +113,6 @@
         model1Question:'',
         model2Questions:[],
         questionsRemaining:10,
-
         timeElapsed:'00:00'
       }
 
@@ -169,22 +166,6 @@
           return ''
         }
       },
-      /*model2QuesntionNames() {
-        return this.model2Questions.map(question =>{
-          if(question){
-            return this.hotkeyMap[question].text.zh
-          }else {
-            return ''
-          }
-        })
-      }*/
-      /*keyBoardHandler() {
-        if(this.model === 'jsms'){
-          return this.model1KeyBoardHandler
-        }else if(this.model === 'szms'){
-          return this.model2KeyBoardHandler
-        }
-      }*/
     },
     watch:{
       gameStatus(val,oldVal) {
@@ -202,9 +183,9 @@
         })
       },
       keyBoardHandler(e) {
-        /*if(this.gameStatus !== 1){
+        if(this.gameStatus !== 1){
           return
-        }*/
+        }
         let key = e.key.toUpperCase();
         switch (key) {
           case this.hotkeyMap.quash.key:
@@ -250,7 +231,6 @@
               break;
           }
         })
-        console.log(`s${quash}${wex}${exort}`);
         let skillToBeInvoked = this.answersMap[`s${quash}${wex}${exort}`]
         if(skillToBeInvoked){
           if(this.skills.indexOf(skillToBeInvoked) === -1){
@@ -357,7 +337,7 @@
 
           },1000)
         })
-        //this.startWatch()
+        this.startWatch()
         switch (this.model) {
           case 'jsms':
             this.updateModel1Question();
