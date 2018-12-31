@@ -1,12 +1,12 @@
 <template>
   <div id="gameInterface">
     <div class="playZone">
-      <div class="instruction">说明</div>
+      <div class="instruction">{{language === 'zh-CN'?'说明':'Hint'}}</div>
       <div class="instructionDetail">
-        <input type="button" value="开始游戏（点击）" class="buttonStart" @click="startGame" v-show="gameStatus === 0">
-        <span id="tipsWord" v-show="gameStatus === 1">剩余技能：</span>
+        <input type="button" :value="language === 'zh-CN'?'开始游戏（点击）':'Start Game(click)'" class="buttonStart" @click="startGame" v-show="gameStatus === 0">
+        <span id="tipsWord" v-show="gameStatus === 1">{{language === 'zh-CN' ? '剩余技能：':'Remaining:'}}</span>
         <span id="tipsNum" v-show="gameStatus === 1">{{questionsRemaining}}</span>
-        <span id="finish-tip" v-show="gameStatus === 2">游戏完成</span>
+        <span id="finish-tip" v-show="gameStatus === 2">{{language === 'zh-CN' ? '游戏完成：':'Challenge Finished'}}</span>
 
       </div>
       <div class="stopWatch" :class="{finished:gameStatus === 2}">{{timeElapsed}}</div>
@@ -14,8 +14,8 @@
         <div class="readyCountNum" v-if="isCountShowed">{{countDownNum}}</div>
       </transition>
       <div class="btnAfterGame" v-if="gameStatus === 2">
-        <input @click="resetGame" class="restart" type="button" value="再来一次"/><input @click="backToHome" class="cancel" type="button"
-                                                                  value="返回"/>
+        <input @click="resetGame" class="restart" type="button" :value="language === 'zh-CN'?'再来一次':'Play again'"/><input @click="backToHome" class="cancel" type="button"
+                                                                  :value="language === 'zh-CN'?'返回':'Back'"/>
       </div>
       <div id="modelBox" v-if="gameStatus !== 2">
         <div id="jsms_box" v-if="model === 'jsms'">
@@ -63,26 +63,26 @@
       <br>
     </div>
     <div class="panel" v-if="gameStatus !== 2">
-      <div id="quash">
+      <div id="quash" @click="keyBoardHandler({key:hotkeyMap.quash.key})">
         <div class="quashkey hotkey">{{hotkeyMap.quash.key}}</div>
       </div>
-      <div id="wex">
+      <div id="wex" @click="keyBoardHandler({key:hotkeyMap.wex.key})">
         <div class="wexkey hotkey">{{hotkeyMap.wex.key}}</div>
       </div>
-      <div id="exort">
+      <div id="exort" @click="keyBoardHandler({key:hotkeyMap.exort.key})">
         <div class="exortkey hotkey">{{hotkeyMap.exort.key}}</div>
       </div>
-      <div id="skill1" :class="[skills[0]]">
+      <div id="skill1" :class="[skills[0]]" @click="keyBoardHandler({key:skillSlotKeys[0] || null})">
         <div class="skill1key hotkey">{{skillSlotKeys[0]}}</div>
       </div>
-      <div id="skill2" :class="[skills[1]]">
+      <div id="skill2" :class="[skills[1]]" @click="keyBoardHandler({key:skillSlotKeys[1] || null})">
         <div class="skill2key hotkey">{{skillSlotKeys[1]}}</div>
       </div>
-      <div id="invoke">
+      <div id="invoke" @click="keyBoardHandler({key:hotkeyMap.invoke.key})">
         <div class="invokekey hotkey">{{hotkeyMap.invoke.key}}</div>
       </div>
-      <input class="cancel" type="button" value="返回" @click="backToHome"/>
-      <input class="restart" type="button" value="重新开始"  @click="resetGame"/>
+      <input class="cancel" type="button" :value="language === 'zh-CN'?'返回':'Back'" @click="backToHome"/>
+      <input class="restart" type="button" :value="language === 'zh-CN'?'重新开始':'Restart'" @click="resetGame"/>
 
 
     </div>
@@ -98,6 +98,7 @@
     }
     return arr;
   }
+  import {playAudio, stopAudio} from "../utils/audioHandler";
   import {mapState, mapMutations,mapGetters} from "vuex"
   export default {
     name: "Play",
@@ -118,7 +119,7 @@
 
     },
     computed:{
-      ...mapState(['gameStatus','hotkeyMap','isTraditional']),
+      ...mapState(['gameStatus','hotkeyMap','isTraditional','language']),
       ...mapGetters(['answersMap']),
       line1Questions() {
         let mid = this.model2Questions.length /2
@@ -161,22 +162,17 @@
       },
       model1QuestionName() {
         if(this.model1Question){
-          return this.hotkeyMap[this.model1Question].text.zh
+          return this.language === 'zh-CN' ? this.hotkeyMap[this.model1Question].text.zh :this.hotkeyMap[this.model1Question].text.en
         }else {
           return ''
         }
       },
     },
-    watch:{
-      gameStatus(val,oldVal) {
-        if(val === 0){
 
-        }
-      }
-    },
     methods:{
       ...mapMutations(['changeGameStatus']),
       backToHome() {
+        playAudio('#cancelSound');
         this.resetGame()
         this.$router.push({
           name:'home'
@@ -217,6 +213,7 @@
         }
       },
       invoke() {
+        playAudio('#invokeSound',0.7)
         let quash = 0,wex = 0, exort = 0;
         this.orbs.forEach((orb)=>{
           switch (orb) {
@@ -233,9 +230,10 @@
         })
         let skillToBeInvoked = this.answersMap[`s${quash}${wex}${exort}`]
         if(skillToBeInvoked){
-          if(this.skills.indexOf(skillToBeInvoked) === -1){
+          let index = this.skills.indexOf(skillToBeInvoked)
+          if(index === -1){
             this.skills.unshift(skillToBeInvoked)
-          }else if(this.skills.length === 2){
+          }else if(this.skills.length === 2 && index === 1){
             let skill2 = this.skills.pop()
             this.skills.unshift(skill2)
           }
@@ -250,7 +248,9 @@
           this.questionsRemaining--
           if(this.questionsRemaining === 0){
             this.finishGame()
+            return
           }
+          playAudio(`#${skill}`,0.5)
           this.updateModel1Question()
         }
       },
@@ -263,6 +263,7 @@
             this.finishGame()
             return
           }
+          playAudio(`#${skill}`)
           if(this.model2Questions.filter(question => !question.isAnswered).length === 0){
             this.updateModel2Question()
           }
@@ -280,7 +281,7 @@
         this.model2Questions = shuffle(copy).slice(0,5).map(question =>{
           return {
             name:question,
-            text:this.hotkeyMap[question].text.zh,
+            text:this.language === 'zh-CN'?this.hotkeyMap[question].text.zh : this.hotkeyMap[question].text.en,
             isAnswered:false
           }
         })
@@ -319,8 +320,9 @@
         }
       },
       async startGame() {
-        this.countDownNum =3
+        stopAudio('#finish')
         this.isCountShowed = true
+        playAudio('#countSound')
         let timer
         await new Promise((resolve, reject)=>{
           timer = setInterval(()=>{
@@ -330,6 +332,7 @@
               resolve()
             }else {
               this.$nextTick(()=>{
+                playAudio('#countSound')
                 this.countDownNum --
                 this.isCountShowed = true
               })
@@ -337,7 +340,7 @@
 
           },1000)
         })
-        this.startWatch()
+        //this.startWatch()
         switch (this.model) {
           case 'jsms':
             this.updateModel1Question();
@@ -409,6 +412,7 @@
     }
   }
   #gameInterface{
+    user-select: none;
     .playZone{
       text-align: center;
       position: relative;

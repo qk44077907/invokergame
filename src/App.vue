@@ -9,7 +9,6 @@
             <span class="QQ"></span>
           </div>
         </div>
-
       </div>-->
       <div class="header">
         <div class="banner"></div>
@@ -27,94 +26,87 @@
         <div class="content">
           <hotkey></hotkey>
           <div id="mainContainer">
-            <h1 id="title">极速卡尔</h1>
+            <h1 id="title">{{language === 'zh-CN' ? '极速卡尔':'Invoker Game'}}</h1>
             <router-view/>
           </div>
           <instruction></instruction>
         </div>
 
       </div>
-      <!--<div id="footer" style="display: none">
-          <audio id="countSound" class="sound"
-                 src="music/ui_findmatch_join_01.wav" hidden="true">
-          </audio>
-          <audio id="modelhoverSound" class="sound"
-                 src="music/click_alt.wav" hidden="true">
-          </audio>
-          <audio id="modelclickSound" class="sound"
-                 src="music/pick_select.wav" hidden="true">
-          </audio>
+      <div id="footer" style="display: none">
+        <audio id="countSound" class="sound" hidden="true">
+          <source src="./assets/music/ui_findmatch_join_01.wav">
+        </audio>
+        <audio id="modelhoverSound" class="sound" hidden="true">
+          <source src="./assets/music/click_alt.wav">
+        </audio>
+        <audio id="modelclickSound" class="sound"
+               hidden="true">
+          <source src="./assets/music/pick_select.wav">
+        </audio>
 
-          <audio id="cancelSound" class="sound"
-                 src="music/click_back.wav" hidden="true">
-          </audio>
-          <audio id="invokeSound" class="sound"
-                 src="music/invoke.wav" hidden="true">
-          </audio>
-          <audio id="coldSnap" class="jslq sound skill"
-                 src="music/cold_snap.wav" hidden="true">
-          </audio>
-          <audio id="ghostWalk" class="ylmb sound skill"
-                 src="music/ghost_walk.wav" hidden="true">
-          </audio>
-          <audio id="iceWall" class="hbzq sound skill"
-                 src="music/ice_wall_slow01.wav" hidden="true">
-          </audio>
+        <audio id="cancelSound" class="sound" hidden="true">
+          <source src="./assets/music/click_back.wav">
+        </audio>
+        <audio id="invokeSound" class="sound" hidden="true">
+          <source src="./assets/music/invoke.wav">
+        </audio>
+        <audio id="jslq" class="jslq sound skill" hidden="true">
+          <source src="./assets/music/cold_snap.wav">
+        </audio>
+        <audio id="ylmb" class="ylmb sound skill" hidden="true">
+          <source src="./assets/music/ghost_walk.wav">
+        </audio>
+        <audio id="hbzq" class="hbzq sound skill" hidden="true">
+          <source src="./assets/music/ice_wall_slow01.wav">
+        </audio>
 
-          <audio id="empCharge" class="dcmc sound skill"
-                 src="music/emp_charge.wav" hidden="true">
-          </audio>
+        <audio id="dcmc" class="dcmc sound skill" hidden="true">
+          <source src="./assets/music/emp_charge.wav">
+        </audio>
 
-          <audio id="tornado" class="qxjf sound skill"
-                 src="music/tornado_cast.wav" hidden="true">
-          </audio>
-          <audio id="alacrity" class="ldxj sound skill"
-                 src="music/alacrity.wav" hidden="true">
-          </audio>
+        <audio id="qxjf" class="qxjf sound skill" hidden="true">
+          <source src="./assets/music/tornado_cast.wav">
+        </audio>
+        <audio id="ldxj" class="ldxj sound skill" hidden="true">
+          <source src="./assets/music/alacrity.wav">
+        </audio>
 
-          <audio id="sunstrikeCharge" class="yycj sound skill"
-                 src="music/sunstrike_charge.wav" hidden="true">
-          </audio>
+        <audio id="yycj" class="yycj sound skill" hidden="true">
+          <source src="./assets/music/sunstrike_charge.wav">
+        </audio>
 
-          <audio id="meteor" class="hdys sound skill"
-                 src="music/meteor.wav" hidden="true">
-          </audio>
-          <audio id="deafeningBlast" class="czsb sound skill"
-                 src="music/deafening_blast.wav" hidden="true">
-          </audio>
-          <audio id="lvlup" class="sound"
-                 src="music/power_up_06.wav" hidden="true">
-          </audio>
-          <audio id="gameMusic" class="music" src="http://m2.music.126.net/AOChMFXWryJzWO2vR5iwIw==/7797736464973704.mp3"
-                 hidden="true" loop="true">
-          </audio>
-          <audio id="keyBindOpen" class="sound"
-                 src="music/keybind_open.wav" hidden="true">
-          </audio>
-          <audio id="keyBindSet" class="sound"
-                 src="music/keybind_set.wav" hidden="true">
-          </audio>
-          <audio id="victory" class="sound"
-                 src="http://7xqs6j.com1.z0.glb.clouddn.com/dota2_music_victory_radiant_comp.mp3" hidden="true">
-          </audio>
-          <audio id="victorySpeak1" class="victorySpeak sound"
-                 src="http://7xqs6j.com1.z0.glb.clouddn.com/invo_win_02.mp3" hidden="true">
-          </audio>
-          <audio id="victorySpeak2" class="victorySpeak sound"
-                 src="http://7xqs6j.com1.z0.glb.clouddn.com/invo_win_03.mp3" hidden="true">
-          </audio>
-          <audio id="unloginScore" class="sound"
-                 src="http://7xqs6j.com1.z0.glb.clouddn.com/unloginScore.wav" hidden="true">
-          </audio>
-      </div>-->
+        <audio id="hdys" class="hdys sound skill" hidden="true">
+          <source src="./assets/music/meteor.wav">
+        </audio>
+        <audio id="czsb" class="czsb sound skill" hidden="true">
+          <source src="./assets/music/deafening_blast.wav">
+        </audio>
+        <audio id="lvlup" class="sound" hidden="true">
+          <source src="./assets/music/power_up_06.wav">
+        </audio>
+        <audio id="keyBindOpen" class="sound" hidden="true">
+          <source src="./assets/music/keybind_open.wav">
+        </audio>
+        <audio id="keyBindSet" class="sound" hidden="true">
+          <source src="./assets/music/keybind_set.wav">
+        </audio>
+        <audio id="finish" class="music" hidden="true">
+          <source src="./assets/music/unloginScore.wav">
+        </audio>
+        <audio id="playing" class="music" hidden="true">
+          <source src="./assets/music/playing.mp3">
+        </audio>
+      </div>
     </div>
 
   </div>
 </template>
 <script>
+  import {playAudio, stopAudio} from "./utils/audioHandler";
   import Instruction from "@/components/Instruction";
   import Hotkey from "@/components/Hotkey";
-  import {mapMutations} from "vuex"
+  import {mapState, mapMutations} from "vuex"
 
   export default {
     name: "app",
@@ -122,12 +114,45 @@
       Instruction,
       Hotkey
     },
+    computed: {
+      ...mapState(['language', 'isMusicActive', 'isSoundActive', 'gameStatus'])
+    },
+    watch: {
+      gameStatus(val, oldVal) {
+        stopAudio('#playing')
+        stopAudio('#finish')
+        switch (val) {
+          case 1:
+            playAudio('#playing',2);
+            break;
+          case 2:
+            playAudio('#finish',2);
+            break;
+        }
+      },
+      isSoundActive(val) {
+        document.querySelectorAll('.sound').forEach((dom) => {
+          dom.muted = !val
+        })
+      },
+      isMusicActive(val) {
+        document.querySelectorAll('.music').forEach((dom) => {
+          dom.muted = !val
+        })
+      }
+    },
     methods: {
       ...mapMutations(['keyBoardHandler'])
     },
     created() {
       document.addEventListener('keydown', this.keyBoardHandler)
+    },
+    mounted() {
+      /*document.querySelectorAll('.sound').forEach((dom) => {
+        dom.volume = 0.5
+      })*/
     }
+
   };
 </script>
 <style lang="less" scoped>
@@ -161,6 +186,7 @@
     background-color: black;
 
   }
+
   .header {
     width: 100%;
     margin: 0;
@@ -175,7 +201,6 @@
     background-size: 100% auto;
     background-image: url(./assets/images/banner2.png);
   }
-
 
   #nav ul {
     width: 1000px;
@@ -231,6 +256,7 @@
     padding: 0;
     font-family: "Microsoft Yahei";
   }
+
   body {
     margin: 0px;
     padding: 0px;
@@ -239,25 +265,29 @@
     font-family: Arial, "Microsoft Yahei";
 
   }
+
   html {
     font-size: 125%; /*10 �� 16 �� 100% = 62.5%*/
   }
-  input,button,select,textarea{outline:none;}
+
+  input, button, select, textarea {
+    outline: none;
+  }
+
   body {
 
     font-size: 0.7rem; /*1.4 �� 10px = 14px */
   }
-
-
 
   html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, img {
     margin: 0;
     padding: 0;
     font-weight: normal;
   }
+
   h1 {
     font-size: 1.2rem; /*2.4 �� 10px = 24px*/
-    font-weight:bold;
+    font-weight: bold;
   }
 
 </style>

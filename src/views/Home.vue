@@ -1,11 +1,12 @@
 <template>
   <div id="menu">
     <ul id="modelList">
-      <li id="jsms" @mouseenter="changeModel('jsms')" @click="play"><a href="javascript:void(0)" class="button button-black">极速模式</a>
+      <li id="jsms" @mouseenter="changeModel('jsms')" @click="play"><a href="javascript:void(0)" class="button button-black" :class="[language]">{{language === 'zh-CN' ? '召唤模式':'Invoke Model'}}</a>
       </li>
-      <li id="szms" @mouseenter="changeModel('szms')" @click="play"><a href="javascript:void(0)" class="button button-black"> 实战模式</a>
+      <li id="szms" @mouseenter="changeModel('szms')" @click="play"><a href="javascript:void(0)" class="button button-black" :class="[language]">{{language === 'zh-CN' ? '连招模式':'Combo Model'}}</a>
       </li>
     </ul>
+
     <div id="intro" :class="[model]">
       <h2>{{modelTitle}}</h2>
       <p>{{modelText}}</p>
@@ -15,6 +16,8 @@
 
 <script>
   // @ is an alias to /src
+  import {playAudio} from "../utils/audioHandler";
+  import {mapState} from "vuex"
   export default {
     name: "home",
     data() {
@@ -23,14 +26,15 @@
       }
     },
     computed:{
+      ...mapState(['language']),
       modelTitle() {
         let text = ''
         switch (this.model) {
           case 'jsms':
-            text = '极速模式'
+            text = this.language === 'zh-CN' ? '召唤模式':'Invoke Model'
             break;
           case 'szms':
-            text = '实战模式'
+            text = this.language === 'zh-CN' ? '连招模式':'Combo Model'
             break;
         }
         return text
@@ -39,10 +43,10 @@
         let text = ''
         switch (this.model) {
           case 'jsms':
-            text = '每次随机给出一个技能，玩家只需召唤该技能，无需施放，总共20个技能。快来挑战你的极限手速吧！'
+            text = this.language === 'zh-CN' ? '每次随机给出一个技能，玩家只需召唤该技能，无需施放，总共10个技能。快来挑战你的极限手速吧！':`A random skill will be showed each time, and you just need to INVOKE it rather than trigger it. 10 skills in sum. Come on and challenge yourself the invoke speed!`
             break;
           case 'szms':
-            text = '每次随机给出一组技能，总共15组，每组技能数量逐渐增多，玩家需要按顺序完成Combo！想成为卡尔大神？先来挑战你的反应能力吧！注意每个技能需要施放才算完成此技能。'
+            text = this.language === 'zh-CN' ? '\'每次随机给出一组技能，每组5个技能，总共2组，玩家需召唤并释放这些技能。快来挑战你的Combo速度吧！':`A group of 5 random skills will be showed each time and you need to INVOKE and TRIGGER it. 2 groups in sum. Come on and challenge yourself the combo speed!`
             break;
         }
         return text
@@ -50,26 +54,19 @@
     },
     methods:{
       changeModel(model) {
+        playAudio('#modelhoverSound',0.5);
         this.model = model
-
-        /*var sound = $('#modelhoverSound')[0];
-        sound.pause();
-        sound.currentTime = 0.0;
-        sound.volume = 0.6;
-        sound.play();*/
       },
       play() {
+        playAudio('#modelclickSound',0.5);
         this.$router.push({
           name:'play',
           params:{
             model:this.model
           }
         })
-        /*var sound = $('#modelclickSound')[0];
-        sound.pause();
-        sound.currentTime = 0.0;
-        sound.volume = 0.3;
-        sound.play();*/
+
+
       }
     },
     components: {}
@@ -87,14 +84,17 @@
       border-top: 1px solid #fff;
       border-top: 1px solid rgba(255, 255, 255, 0.5);
       display: block;
-      padding: 0rem 1.5rem;
-      letter-spacing: 6px;
+      font-size: 20px;
+      &.zh-CN{
+        font-size: 24px;
+        letter-spacing: 6px;
+      }
       text-align: center;
       margin-bottom: 100px;
       text-decoration: none;
-      font-size: 1.2rem;
-      font-family: "Microsoft Yahei";
+
       color: #fff;
+
     }
     ul{
       width: 207px;

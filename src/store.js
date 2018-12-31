@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import {playAudio} from "./utils/audioHandler"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -9,6 +9,8 @@ export default new Vuex.Store({
     isHotkeyWaitingChange:false,
     hotkeyToBeChanged:'',
     isTraditional:false,
+    isMusicActive:true,
+    isSoundActive:true,
     defaultHotkeyMap:{      //热键表
       "quash": {
         key:"Q",
@@ -128,7 +130,7 @@ export default new Vuex.Store({
         key:"Q",
         text:{
           zh:'冰',
-          en:'quash'
+          en:'Quash'
         },
       },
       "wex": {
@@ -309,6 +311,8 @@ export default new Vuex.Store({
         },
       },
     },
+    language:navigator.language,
+    //language:'en',
   },
   getters:{
     answersMap:(state)=> {
@@ -334,6 +338,7 @@ export default new Vuex.Store({
   mutations: {
     keyBoardHandler(state,event) {
       if(state.isHotkeyWaitingChange){
+        playAudio('#keyBindSet');
         let hotkeyToBeChanged = state.hotkeyToBeChanged
         let temp = state.hotkeyMap[hotkeyToBeChanged].key
         let keyPressed = event.key.toUpperCase()
@@ -357,6 +362,7 @@ export default new Vuex.Store({
         state.isHotkeyWaitingChange = false
         state.hotkeyToBeChanged = ''
       }else {
+        playAudio('#keyBindOpen')
         state.isHotkeyWaitingChange = true
         state.hotkeyToBeChanged = key
       }
@@ -366,6 +372,12 @@ export default new Vuex.Store({
     },
     switchIsTraditional(state) {
       state.isTraditional = !state.isTraditional
+    },
+    switchIsMusicActive(state) {
+      state.isMusicActive = !state.isMusicActive
+    },
+    switchIsSoundActive(state) {
+      state.isSoundActive = !state.isSoundActive
     },
     resetHotkeys(state) {
       state.hotkeyMap = state.defaultHotkeyMap

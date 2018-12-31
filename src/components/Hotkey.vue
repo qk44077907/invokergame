@@ -1,7 +1,7 @@
 <template>
   <div class="hotkey-box" @keydown="keydownHandler($event)">
-    <h2>控制面板</h2>
-    <h3>技能键位</h3>
+    <h2>{{language === 'zh-CN'?'控制面板':'Control Panel'}}</h2>
+    <h3>{{language === 'zh-CN'?'技能键位(点击修改)':'HotKeys(Click to change)'}}</h3>
     <table >
       <tbody>
       <tr
@@ -13,18 +13,18 @@
       >
         <td class="controlbox-hotkey">{{value.key}}</td>
         <td>-</td>
-        <td>{{value.text.zh}}</td>
+        <td>{{language === 'zh-CN'?value.text.zh:value.text.en}}</td>
       </tr>
       </tbody>
     </table>
-    <input type="checkbox" id="legacyCheckbox" :value="isTraditional" @input="switchIsTraditional">
-    <label for="legacyCheckbox">使用传统键位</label><br/>
-    <button type="button" id="reset" @click="resetHotkeys">恢复默认</button>
+    <input type="checkbox" id="legacyCheckbox" :checked="isTraditional" @input="switchIsTraditional">
+    <label for="legacyCheckbox">{{language === 'zh-CN'?'使用传统键位':'Use classic hotkeys'}}</label><br/>
+    <button type="button" id="reset" @click="resetHotkeys">{{language === 'zh-CN'?'恢复默认':'Restore default'}}</button>
     <br/>
-    <input type="checkbox" id="musicCheckbox" checked="checked">
-    <label for="musicCheckbox">音乐</label>
-    <input type="checkbox" id="soundCheckbox" checked="checked">
-    <label for="soundCheckbox">音效</label><br/>
+    <input type="checkbox" id="musicCheckbox" :checked="isMusicActive" @input="switchIsMusicActive">
+    <label for="musicCheckbox">{{language === 'zh-CN'?'音乐':'Music'}}</label>
+    <input type="checkbox" id="soundCheckbox" :checked="isSoundActive" @input="switchIsSoundActive">
+    <label for="soundCheckbox">{{language === 'zh-CN'?'音效':'Sound'}}</label><br/>
   </div>
 </template>
 
@@ -40,11 +40,11 @@
       }
     },
     computed:{
-      ...mapState(['hotkeyMap','isTraditional','hotkeyToBeChanged','isHotkeyWaitingChange']),
+      ...mapState(['hotkeyMap','isTraditional','hotkeyToBeChanged','isHotkeyWaitingChange','language','isMusicActive','isSoundActive']),
 
     },
     methods:{
-      ...mapMutations(['switchIsTraditional','activateHotkeyChange','resetHotkeys']),
+      ...mapMutations(['switchIsTraditional','activateHotkeyChange','resetHotkeys','switchIsMusicActive','switchIsSoundActive']),
     },
     created() {
 

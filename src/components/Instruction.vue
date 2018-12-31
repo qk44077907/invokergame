@@ -1,11 +1,11 @@
 <template>
   <div id="skillBox" class="instruction">
-    <h2>技能表</h2>
+    <h2>{{language === 'zh-CN' ? '技能表' :'Skills Map'}}</h2>
     <table id="spellTable">
       <tbody>
       <tr class="cell" v-for="(skill, skillKey) in skillsMap" :key="skillKey">
         <td><span :class="[skillKey]" class="icon"></span></td>
-        <td><span class="spellName">{{skill.text.zh}} - </span></td>
+        <td><span class="spellName" :class="{en:language !== 'zh-CN'}">{{language === 'zh-CN' ? skill.text.zh :skill.text.en}}-</span></td>
         <td v-for="(orb ,index) in skill.orbs" :key="index" :class="[orb]">
           <span class="hotkey hotkey1">{{hotkeyMap[orb].key}}</span>
         </td>
@@ -89,7 +89,7 @@
   export default {
     name: "Instruction",
     computed:{
-      ...mapState(['skillsMap','hotkeyMap'])
+      ...mapState(['skillsMap','hotkeyMap','language'])
     }
   };
 </script>
@@ -122,6 +122,10 @@
       }
       span {
         font-family: "Consolas";
+        &.en{
+          font-size: 14px;
+          letter-spacing: 0
+        }
 
       }
       td{
@@ -129,6 +133,7 @@
         align-items: center;
         height: 100%;
         letter-spacing: 1px;
+
         &:first-child{
           margin-right: 4px;
         }
