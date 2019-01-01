@@ -147,11 +147,6 @@
     created() {
       document.addEventListener('keydown', this.keyBoardHandler)
     },
-    mounted() {
-      /*document.querySelectorAll('.sound').forEach((dom) => {
-        dom.volume = 0.5
-      })*/
-    }
 
   };
 </script>
@@ -199,7 +194,7 @@
     margin: 0 auto;
     overflow: hidden;
     background-size: 100% auto;
-    background-image: url(./assets/images/banner2.png);
+    background-image: url(./assets/images/banner3.png);
   }
 
   #nav ul {
@@ -214,22 +209,18 @@
   #nav ul li {
     float: left;
     width: 25%;
-    /*background-color: red;*/
     height: 60px;
   }
 
   #nav ul li a {
-
-    height: 60px; /*���ø߶�Ϊ28px*/
-    line-height: 60px; /* �����о�Ϊ28px����������ÿ�е��м�λ��*/
+    height: 60px;
+    line-height: 60px;
     vertical-align: middle;
     background: #2B2B2B;
-    color: #dbdbdb; /*������ɫ�ǰ�ɫ*/
+    color: #dbdbdb;
     margin: 0px 1px 0px 1px;
-    /*font-size:35px;��12����*/
-    display: block; /*����ȽϹؼ�����Ϊa�����������Ԫ�أ��������п�ߣ������������ɿ鼶Ԫ�أ�����ǰ�����õĿ�͸߾�����������*/
-    text-align: center; /*���ı�����*/
-    text-decoration: none; /*ȥ���»���*/
+    display: block;
+    text-decoration: none;
     border: solid 1px black;
     -webkit-border-radius: 5px;
     font-size: 25px;
