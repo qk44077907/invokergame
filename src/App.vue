@@ -34,67 +34,64 @@
 
       </div>
       <div id="footer" style="display: none">
-        <audio id="countSound" class="sound" hidden="true">
+        <audio id="countSound" class="sound" hidden="true" preload="auto">
           <source src="./assets/music/ui_findmatch_join_01.wav">
         </audio>
-        <audio id="modelhoverSound" class="sound" hidden="true">
+        <audio id="modelhoverSound" class="sound" hidden="true" preload="auto">
           <source src="./assets/music/click_alt.wav">
         </audio>
         <audio id="modelclickSound" class="sound"
-               hidden="true">
+               hidden="true" preload="auto">
           <source src="./assets/music/pick_select.wav">
         </audio>
 
-        <audio id="cancelSound" class="sound" hidden="true">
+        <audio id="cancelSound" class="sound" hidden="true" preload="auto">
           <source src="./assets/music/click_back.wav">
         </audio>
-        <audio id="invokeSound" class="sound" hidden="true">
-          <source src="./assets/music/invoke.wav">
+        <audio id="invokeSound" class="sound" hidden="true" preload="auto">
+          <source src="./assets/music/invoke.wav" preload="auto">
         </audio>
-        <audio id="jslq" class="jslq sound skill" hidden="true">
+        <audio id="jslq" class="jslq sound skill" hidden="true" preload="auto">
           <source src="./assets/music/cold_snap.wav">
         </audio>
-        <audio id="ylmb" class="ylmb sound skill" hidden="true">
+        <audio id="ylmb" class="ylmb sound skill" hidden="true" preload="auto">
           <source src="./assets/music/ghost_walk.wav">
         </audio>
-        <audio id="hbzq" class="hbzq sound skill" hidden="true">
+        <audio id="hbzq" class="hbzq sound skill" hidden="true" preload="auto">
           <source src="./assets/music/ice_wall_slow01.wav">
         </audio>
 
-        <audio id="dcmc" class="dcmc sound skill" hidden="true">
+        <audio id="dcmc" class="dcmc sound skill" hidden="true" preload="auto">
           <source src="./assets/music/emp_charge.wav">
         </audio>
 
-        <audio id="qxjf" class="qxjf sound skill" hidden="true">
+        <audio id="qxjf" class="qxjf sound skill" hidden="true" preload="auto">
           <source src="./assets/music/tornado_cast.wav">
         </audio>
-        <audio id="ldxj" class="ldxj sound skill" hidden="true">
+        <audio id="ldxj" class="ldxj sound skill" hidden="true" preload="auto">
           <source src="./assets/music/alacrity.wav">
         </audio>
 
-        <audio id="yycj" class="yycj sound skill" hidden="true">
+        <audio id="yycj" class="yycj sound skill" hidden="true" preload="auto">
           <source src="./assets/music/sunstrike_charge.wav">
         </audio>
 
-        <audio id="hdys" class="hdys sound skill" hidden="true">
+        <audio id="hdys" class="hdys sound skill" hidden="true" preload="auto">
           <source src="./assets/music/meteor.wav">
         </audio>
-        <audio id="czsb" class="czsb sound skill" hidden="true">
+        <audio id="czsb" class="czsb sound skill" hidden="true" preload="auto">
           <source src="./assets/music/deafening_blast.wav">
         </audio>
-        <audio id="lvlup" class="sound" hidden="true">
-          <source src="./assets/music/power_up_06.wav">
-        </audio>
-        <audio id="keyBindOpen" class="sound" hidden="true">
+        <audio id="keyBindOpen" class="sound" hidden="true" preload="auto">
           <source src="./assets/music/keybind_open.wav">
         </audio>
-        <audio id="keyBindSet" class="sound" hidden="true">
+        <audio id="keyBindSet" class="sound" hidden="true" preload="auto">
           <source src="./assets/music/keybind_set.wav">
         </audio>
-        <audio id="finish" class="music" hidden="true">
+        <audio id="finish" class="music" hidden="true" preload="auto">
           <source src="./assets/music/unloginScore.wav">
         </audio>
-        <audio id="playing" class="music" hidden="true">
+        <audio id="playing" class="music" hidden="true" preload="auto">
           <source src="./assets/music/playing.mp3">
         </audio>
       </div>
